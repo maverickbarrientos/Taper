@@ -1,6 +1,6 @@
 
 
-export default function Onboarding() {
+export default function CoachOnboarding() {
 
   return (
     <div>

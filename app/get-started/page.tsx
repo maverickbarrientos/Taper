@@ -8,7 +8,7 @@ export default function GetStarted () {
 
   return (
 
-    <div className="m-5 p-6">
+    <div className="m-6">
 
       <Link href={'/'} className='mr-3'>
         <div className='flex items-center'>
