@@ -19,9 +19,11 @@ import { formatRange } from "@/lib/utils"
 
 type PhaseDetailsProps = {
   phaseId: string
+  programStart: Date | string
+  programEnd: Date | string
 }
 
-export default function PhaseDetails({ phaseId }: PhaseDetailsProps) {
+export default function PhaseDetails({ phaseId, programStart, programEnd }: PhaseDetailsProps) {
 
   const { data: phase, isPending, isError, refetch } = usePhase(phaseId);
 
@@ -66,6 +68,8 @@ export default function PhaseDetails({ phaseId }: PhaseDetailsProps) {
           <PhaseStatusButton phaseId={phase.id} status={phase.status} />
           <PhaseForm
             programId={phase.programId}
+            programStart={programStart}
+            programEnd={programEnd}
             mode={{ mode: "update", data: phase }}
             formLabel="Save changes"
             triggerLabel="Edit phase"

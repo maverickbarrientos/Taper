@@ -1,5 +1,6 @@
 
 import api from "@/lib/api/client";
+import serverApi from "@/lib/api/server";
 import { Response } from "@/types/common";
 import { CreatePhase, PhaseWithSessions, UpdatePhase } from "@/types/phase";
 
@@ -28,5 +29,13 @@ export async function deletePhase(phaseId: string) {
 
   const response = await api.delete(`/program/phase/${phaseId}`);
   return response.data;
+
+}
+
+// For server components (the browser client has no session on the server)
+export async function getPhaseDetails(phaseId: string): Promise<Response<PhaseWithSessions>> {
+
+  const response = await serverApi.get(`/program/phase/${phaseId}`);
+  return response.data
 
 }

@@ -51,6 +51,8 @@ export default async function ProgramDetails({ params, searchParams }: ProgramDe
               <h2 className="m-0">Phases</h2>
               <PhaseForm
                 programId={program.id}
+                programStart={program.startDate}
+                programEnd={program.endDate}
                 mode={{ mode: "create" }}
                 formLabel="Add phase"
                 triggerLabel="Add phase"
@@ -93,7 +95,7 @@ export default async function ProgramDetails({ params, searchParams }: ProgramDe
           </section>
 
           {phaseId ? (
-            <PhaseDetails phaseId={phaseId} />
+            <PhaseDetails phaseId={phaseId} programStart={program.startDate} programEnd={program.endDate} />
           ) : program.phase.length > 0 && (
             <p className="m-0 rounded-xl border border-dashed py-10 text-center text-muted-foreground">
               Select a phase to see its sessions.

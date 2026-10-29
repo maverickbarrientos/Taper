@@ -164,8 +164,8 @@ export default function ProgramForm({ athletes, mode: { mode, data }, selectedAt
               <InputField label="Competition title" {...register("name")} />
               <div className="grid gap-3 sm:grid-cols-3">
                 <DatePicker label="Competition date" form={form} name="date" />
-                <DatePicker label="Training start" form={form} name="startDate" />
-                <DatePicker label="Training end" form={form} name="endDate" />
+                <DatePicker label="Training start" form={form} name="startDate" maxDate={endDate ?? undefined} />
+                <DatePicker label="Training end" form={form} name="endDate" minDate={startDate ?? undefined} />
               </div>
             </CardContent>
           </Card>

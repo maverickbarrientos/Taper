@@ -1,7 +1,7 @@
 
 
 import { Controller, FieldValues, Path, UseFormReturn } from "react-hook-form"
-import { format } from "date-fns"
+import { format, startOfDay } from "date-fns"
 import { CaretDownIcon } from "@phosphor-icons/react"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -16,13 +16,24 @@ type DatePickerProps<T extends FieldValues> = {
   form: UseFormReturn<T>
   name: Path<T>
   label: string
+  // Dates outside [minDate, maxDate] can't be picked
+  minDate?: Date
+  maxDate?: Date
 }
 
 export default function DatePicker<T extends FieldValues>({
   form,
   name,
-  label
+  label,
+  minDate,
+  maxDate,
 }: DatePickerProps<T>) {
+
+  const disabled = [
+    ...(minDate ? [{ before: startOfDay(minDate) }] : []),
+    ...(maxDate ? [{ after: startOfDay(maxDate) }] : []),
+  ]
+
   return (
     <div className="space-y-2">
       <Label>{label}</Label>
@@ -53,7 +64,10 @@ export default function DatePicker<T extends FieldValues>({
                   mode="single"
                   selected={date}
                   onSelect={(d) => field.onChange(d)}
-                  defaultMonth={date}
+                  defaultMonth={date ?? minDate}
+                  disabled={disabled}
+                  startMonth={minDate}
+                  endMonth={maxDate}
                 />
               </PopoverContent>
             </Popover>

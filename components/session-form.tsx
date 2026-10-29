@@ -28,9 +28,12 @@ const emptyExercise = { name: "", sets: "", reps: "", notes: "", order: 1 }
 
 type SessionFormProps = {
   mode: FormMode<SessionWithExercise>
+  // The session date must fall inside the phase's dates
+  phaseStart?: Date | string
+  phaseEnd?: Date | string
 }
 
-export default function SessionForm({ mode: { mode, data }}: SessionFormProps) {
+export default function SessionForm({ mode: { mode, data }, phaseStart, phaseEnd }: SessionFormProps) {
 
   const { id } = useParams();
   const router = useRouter();
@@ -86,7 +89,13 @@ export default function SessionForm({ mode: { mode, data }}: SessionFormProps) {
 
         <div className="grid gap-2 sm:grid-cols-2">
           <InputField label="Title" placeholder="e.g. 100m sprint" {...register("title")} />
-          <DatePicker form={form} name="date" label="Date" />
+          <DatePicker
+            form={form}
+            name="date"
+            label="Date"
+            minDate={phaseStart ? new Date(phaseStart) : undefined}
+            maxDate={phaseEnd ? new Date(phaseEnd) : undefined}
+          />
         </div>
 
         <div className="space-y-2">

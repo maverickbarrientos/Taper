@@ -41,12 +41,15 @@ const phaseTypes: { label: string, value: PhaseType }[] = [
 
 type PhaseFormProps = {
   programId: string
+  // The phase must fall inside the program's dates
+  programStart?: Date | string
+  programEnd?: Date | string
   mode: FormMode<Phase>
   formLabel: string
   triggerLabel: string
 }
 
-export default function PhaseForm({ programId, mode: { mode, data }, formLabel, triggerLabel }: PhaseFormProps) {
+export default function PhaseForm({ programId, programStart, programEnd, mode: { mode, data }, formLabel, triggerLabel }: PhaseFormProps) {
 
   const isEdit = mode === "update"
 
@@ -67,6 +70,10 @@ export default function PhaseForm({ programId, mode: { mode, data }, formLabel, 
   });
 
   const { register, control, formState: { isDirty, isValid, isSubmitting }, handleSubmit } = form;
+
+  const [startDate, endDate] = form.watch(["startDate", "endDate"])
+  const programMin = programStart ? new Date(programStart) : undefined
+  const programMax = programEnd ? new Date(programEnd) : undefined
 
   const [open, setOpen] = useState(false)
   const addPhase = useAddPhase()
@@ -131,8 +138,8 @@ export default function PhaseForm({ programId, mode: { mode, data }, formLabel, 
           </div>
 
           <div className="w-full grid items-center gap-2 sm:grid-cols-2">
-            <DatePicker label="Start date" form={form} name="startDate" />
-            <DatePicker label="End date" form={form} name="endDate" />
+            <DatePicker label="Start date" form={form} name="startDate" minDate={programMin} maxDate={endDate ?? programMax} />
+            <DatePicker label="End date" form={form} name="endDate" minDate={startDate ?? programMin} maxDate={programMax} />
           </div>
         </form>
 
