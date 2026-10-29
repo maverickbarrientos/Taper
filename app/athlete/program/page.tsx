@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { connection } from "next/server"
 import { format, isSameDay, startOfDay } from "date-fns"
 import { BarbellIcon, CalendarBlankIcon, TargetIcon, StarIcon } from "@phosphor-icons/react/dist/ssr"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
@@ -142,6 +143,9 @@ function CurrentSession({ session, phaseType }: { session: SessionWithExercise |
 }
 
 export default async function Program() {
+
+  // Per-user data: render on request, never at build time (the loaders below swallow errors)
+  await connection()
 
   const [programs, ongoing] = await Promise.all([loadPrograms(), loadOngoingProgram()])
 

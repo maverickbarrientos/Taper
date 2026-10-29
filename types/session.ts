@@ -24,7 +24,7 @@ export const sessionSchema = z.object({
 
 export type SessionData = z.infer<typeof sessionSchema>
 
-export type CreateSession = Pick<Session, "phaseId" | "title" | "date" | "notes"> & { exercises: CreateExercise[] }
+export type CreateSession = Pick<Session, "phaseId" | "title" | "date" | "notes"> & { exercise: CreateExercise[] }
 
 export type UpdateSession = 
   Partial<Omit<CreateSession, "exercise">>
